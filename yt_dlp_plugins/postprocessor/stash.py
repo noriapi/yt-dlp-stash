@@ -21,6 +21,7 @@ class StashPP(PostProcessor):
         sessioncookie: str = "",
         searchpathoverride: str = "",
         scrapemethod: str = "yt_dlp",
+        default_tags: str[] = ["scrape"]
         **kwargs,
     ):
         # ⚠ Only kwargs can be passed from the CLI, and all argument values will be string
@@ -36,6 +37,7 @@ class StashPP(PostProcessor):
             stash_args["SessionCookie"] = sessioncookie
         self.stash = StashInterface(stash_args)
         self.searchpathoverride = searchpathoverride
+        self.default_tags = default_tags
 
     def run(self, info):
         if self.scrapemethod == "stash":
@@ -64,11 +66,16 @@ class StashPP(PostProcessor):
                 self.write_debug(f"[Debug] Error during scene search: {e}")
                 return [], info
         self.write_debug(f"Found scene with id: {scene[0]['id']}")
-        self.tag = self.stash.find_tags(
-            {"name": {"modifier": "EQUALS", "value": "scrape"}}
-        )
-        if len(self.tag) == 0:
-            self.tag = [self.stash.create_tag({"name": "scrape"})]
+
+        self.tag = []
+        for tag_name in self.default_tags:
+            tags = self.stash.find_tags(
+                {"name": {"modifier": "INCLUDES", "value": tag_name}}
+            )
+            if len(self.tag) == 0:
+                tags = [self.stash.create_tag({"name": tag_name})]
+            self.tag.extend(tags)
+
         update_scene = {
             "id": scene[0]["id"],
             "url": info["webpage_url"],
