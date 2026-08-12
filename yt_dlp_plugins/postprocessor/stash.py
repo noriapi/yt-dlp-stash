@@ -23,6 +23,7 @@ class StashPP(PostProcessor):
         scrapemethod: str = "yt_dlp",
         default_tags: str = "scrape",
         set_director: str = "",
+        organized: str = "",
         **kwargs,
     ):
         # ⚠ Only kwargs can be passed from the CLI, and all argument values will be string
@@ -40,6 +41,7 @@ class StashPP(PostProcessor):
         self.searchpathoverride = searchpathoverride
         self.default_tags = default_tags.split(",")
         self.set_director = not (set_director.lower() in ("false", ""))
+        self.organized = not (organized.lower() in ("false", ""))
 
     def run(self, info):
         if self.scrapemethod == "stash":
@@ -99,6 +101,8 @@ class StashPP(PostProcessor):
             )
         if self.set_director and ("uploader" in info):
             update_scene["director"] = info["uploader"]
+        if self.organized:
+            update_scene["organized"] = True
         self.stash.update_scene(update_scene)
         self.to_screen(f"[Info] Updated Scene with id: {scene[0]['id']}")
         return [], info
