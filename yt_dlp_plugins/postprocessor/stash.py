@@ -326,6 +326,7 @@ class StashPP(PostProcessor):
                 dirpath = str(Path(filepath).parent)
                 return filepath, dirpath
         else:
+            filepath = absolute_path
             dirpath = str(Path(filepath).parent)
             return filepath, dirpath
 
