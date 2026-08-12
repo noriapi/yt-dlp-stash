@@ -39,7 +39,7 @@ class StashPP(PostProcessor):
         self.stash = StashInterface(stash_args)
         self.searchpathoverride = searchpathoverride
         self.default_tags = default_tags.split(",")
-        self.set_director = not (set_director.lower() == "false" or set_director == "")
+        self.set_director = not (set_director.lower() in ("false", ""))
 
     def run(self, info):
         if self.scrapemethod == "stash":
