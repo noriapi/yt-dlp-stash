@@ -21,7 +21,7 @@ class StashPP(PostProcessor):
         sessioncookie: str = "",
         searchpathoverride: str = "",
         scrapemethod: str = "yt_dlp",
-        default_tags: list[str] = ["scrape"]
+        default_tags: str = "scrape"
         **kwargs,
     ):
         # ⚠ Only kwargs can be passed from the CLI, and all argument values will be string
@@ -37,7 +37,7 @@ class StashPP(PostProcessor):
             stash_args["SessionCookie"] = sessioncookie
         self.stash = StashInterface(stash_args)
         self.searchpathoverride = searchpathoverride
-        self.default_tags = default_tags
+        self.default_tags = default_tags.split(",")
 
     def run(self, info):
         if self.scrapemethod == "stash":
