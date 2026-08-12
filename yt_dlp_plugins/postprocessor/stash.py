@@ -79,7 +79,7 @@ class StashPP(PostProcessor):
         update_scene = {
             "id": scene[0]["id"],
             "url": info["webpage_url"],
-            "tag_ids": [self.tag[0]["id"]],
+            "tag_ids": [tag["id"] for tag in self.tag],
         }
         if "title" in info:
             update_scene["title"] = info["title"]
