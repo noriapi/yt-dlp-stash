@@ -22,7 +22,7 @@ class StashPP(PostProcessor):
         searchpathoverride: str = "",
         scrapemethod: str = "yt_dlp",
         default_tags: str = "scrape",
-        set_director: bool = False,
+        set_director: str = "",
         **kwargs,
     ):
         # ⚠ Only kwargs can be passed from the CLI, and all argument values will be string
@@ -39,7 +39,7 @@ class StashPP(PostProcessor):
         self.stash = StashInterface(stash_args)
         self.searchpathoverride = searchpathoverride
         self.default_tags = default_tags.split(",")
-        self.set_director = set_director
+        self.set_director = not (set_director.lower() == "false" or set_director == "")
 
     def run(self, info):
         if self.scrapemethod == "stash":
