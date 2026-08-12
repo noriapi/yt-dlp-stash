@@ -72,7 +72,7 @@ class StashPP(PostProcessor):
             tags = self.stash.find_tags(
                 {"name": {"modifier": "EQUALS", "value": tag_name}}
             )
-            if tags and len(tags) == 0:
+            if len(tags) == 0:
                 tags = [self.stash.create_tag({"name": tag_name})]
             self.tag.extend(tags)
 
