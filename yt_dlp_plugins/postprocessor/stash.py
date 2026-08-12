@@ -326,8 +326,7 @@ class StashPP(PostProcessor):
                 dirpath = str(Path(filepath).parent)
                 return filepath, dirpath
         else:
-            filepath = info["filepath"]
-            dirpath = str(Path(info["filepath"]).parent)
+            dirpath = str(Path(filepath).parent)
             return filepath, dirpath
 
     def _scan_path(self, path: str):
