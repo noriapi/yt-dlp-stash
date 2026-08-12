@@ -21,6 +21,7 @@ class StashPP(PostProcessor):
         sessioncookie: str = "",
         searchpathoverride: str = "",
         scrapemethod: str = "yt_dlp",
+        organized: str = "",
         **kwargs,
     ):
         # ⚠ Only kwargs can be passed from the CLI, and all argument values will be string
@@ -36,6 +37,7 @@ class StashPP(PostProcessor):
             stash_args["SessionCookie"] = sessioncookie
         self.stash = StashInterface(stash_args)
         self.searchpathoverride = searchpathoverride
+        self.organized = not (organized.lower() in ("false", ""))
 
     def run(self, info):
         if self.scrapemethod == "stash":
@@ -88,6 +90,8 @@ class StashPP(PostProcessor):
                 + "-"
                 + info["upload_date"][6:8]
             )
+        if self.organized:
+            update_scene["organized"] = True
         self.stash.update_scene(update_scene)
         self.to_screen(f"[Info] Updated Scene with id: {scene[0]['id']}")
         return [], info
