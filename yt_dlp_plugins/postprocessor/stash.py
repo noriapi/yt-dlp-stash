@@ -70,7 +70,7 @@ class StashPP(PostProcessor):
         self.tag = []
         for tag_name in self.default_tags:
             tags = self.stash.find_tags(
-                {"name": {"modifier": "INCLUDES", "value": tag_name}}
+                {"name": {"modifier": "EQUALS", "value": tag_name}}
             )
             if len(self.tag) == 0:
                 tags = [self.stash.create_tag({"name": tag_name})]
